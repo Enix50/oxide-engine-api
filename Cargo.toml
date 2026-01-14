@@ -11,4 +11,4 @@ readme = "README.md"               # ← файл в корне crate
 keywords = ["game", "engine", "plugin", "gamedev"]
 categories = ["game-engines", "development-tools"]
 
-[dependencies]
+###resolver = "2"
