@@ -7,7 +7,7 @@ license = "MIT"
 repository = "https://github.com/Enix50/oxide-engine-api"
 homepage = "https://github.com/Enix50/oxide-engine-api"
 documentation = "https://docs.rs/oxide-engine-api"
-readme = "README.md"               # ← файл в корне crate
+readme = "README.md"
 keywords = ["game", "engine", "plugin", "gamedev"]
 categories = ["game-engines", "development-tools"]
 

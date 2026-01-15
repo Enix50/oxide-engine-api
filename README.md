@@ -2,7 +2,7 @@
 
 Public API for [Oxide Game Engine](https://github.com/Enix50/oxide-engine-api).
 
-This crate provides the traits and interfaces needed to write plugins for Oxide.
+This crate provides the traits and interfaces needed to write plugins for Oxide Game Engine.
 
 ## Example
 
