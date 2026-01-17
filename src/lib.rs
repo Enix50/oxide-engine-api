@@ -1,18 +1,31 @@
 use std::path::PathBuf;
+
 /// Уникальный идентификатор объекта в сцене.
-/// Гарантированно уникален в пределах одного запуска движка.
 pub type EntityId = u64;
 
-pub trait WorldContext {
-    fn log(&self, msg: &str);
+// === Подсистема объектов ===
+pub trait ObjectSystem {
+	/// Создаёт корневой объект (без родителя).
+	fn create_root(&self, name: String, script_path: Option<PathBuf>) -> EntityId;
 
-    //ObjectRegistry
-    fn create_root(&self, name: String, script_path: Option<PathBuf>) -> EntityId;
-    fn create_child(&self, name: String, script_path: Option<PathBuf>, parent: EntityId) -> Option<EntityId>;
-    
+	/// Создаёт дочерний объект.
+	/// Возвращает `None`, если родитель не существует.
+	fn create_child(&self, name: String, script_path: Option<PathBuf>, parent: EntityId) -> Option<EntityId>;
+
+	/// Удаляет объект и всё его поддерево.
+	fn remove(&self, id: EntityId);
+}
+
+// === Основной контекст движка ===
+pub trait WorldContext {
+	/// Доступ к системе объектов.
+	fn objects(&self) -> &dyn ObjectSystem;
+	
+	/// Логирование (можно вынести в отдельную подсистему позже)
+	fn log(&self, msg: &str);
 }
 
 pub trait Script: Send {
-    fn init(&mut self, ctx: &dyn WorldContext);
-    fn update(&mut self, ctx: &dyn WorldContext, delta: f32);
+	fn init(&mut self, ctx: &dyn WorldContext);
+	fn update(&mut self, ctx: &dyn WorldContext, delta: f32);
 }
