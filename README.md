@@ -7,17 +7,22 @@ This crate provides the traits and interfaces needed to write plugins for Oxide 
 ## Example
 
 ```rust
-use oxide_api::{Script, WorldContext};
+use oxide_api::{Script, Context};
 
-struct MyScript;
+struct MyScript{name: String}
 
 impl Script for MyScript {
-    fn init(&mut self, ctx: &dyn WorldContext) {
+    fn init(&mut self, ctx: &dyn Context) {
         ctx.log("Hello from plugin!");
     }
+	fn update(&mut self, ctx: &dyn Context, delta: f32) {
+		
+	}
 }
 
-#[no_mangle]
-pub extern "Rust" fn create_script() -> Box<dyn oxide_api::Script> {
-    Box::new(MyScript)
+#[unsafe(no_mangle)]
+pub extern "Rust" fn create_script() -> Box<dyn oxide_engine_api::Script> {
+    Box::new(
+		MyScript{name: String::from("MyScript")}
+	)
 }

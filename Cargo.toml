@@ -1,6 +1,6 @@
 [package]
 name = "oxide-engine-api"
-version = "0.12.2"
+version = "0.13.2"
 edition = "2024"
 description = "API for Oxide game engine plugins"
 license = "MIT"
@@ -10,5 +10,8 @@ documentation = "https://docs.rs/oxide-engine-api"
 readme = "README.md"
 keywords = ["game", "engine", "plugin", "gamedev"]
 categories = ["game-engines", "development-tools"]
+
+[dependencies]
+slotmap = "1.1.1"
 
 ###resolver = "2"
