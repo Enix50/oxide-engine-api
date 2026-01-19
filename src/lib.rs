@@ -37,5 +37,5 @@ pub trait ObjectServer {
 	fn remove_script(&self, object_id: DefaultKey) -> bool;
 
 	///
-	fn move_to_parent(&self, childe_object_id: DefaultKey, new_parent_id: DefaultKey) -> bool;
+	fn move_to_parent(&self, child_object_id: DefaultKey, new_parent_id: DefaultKey) -> bool;
 }
