@@ -21,14 +21,15 @@ pub trait Context {
 // === ПОДСИСТЕМА ОБЪЕКТОВ ===
 pub trait ObjectServer {
 	/// Создаёт корневой объект (без родителя)
-	fn create_root(&self, object_name: String, script_path: Option<PathBuf>) -> DefaultKey;
+	/// Возвращает `None`, если родитель не существует
+	fn create_root(&self, object_name: String, script_path: Option<PathBuf>) -> Option<DefaultKey>;
 
 	/// Создаёт дочерний объект
 	/// Возвращает `None`, если родитель не существует
 	fn create_child(&self, object_name: String, script_path: Option<PathBuf>, parent_object: DefaultKey) -> Option<DefaultKey>;
 
 	/// Удаляет объект и всё его поддерево
-	fn remove(&self, object_id: DefaultKey);
+	fn remove(&self, object_id: DefaultKey) -> bool;
 
 	///
 	fn set_script(&self, object_id: DefaultKey, script_path: PathBuf) -> bool;
@@ -38,4 +39,8 @@ pub trait ObjectServer {
 
 	///
 	fn move_to_parent(&self, child_object_id: DefaultKey, new_parent_id: DefaultKey) -> bool;
+
+	fn get_by_id(&self, object_id: DefaultKey) -> Option<DefaultKey>;
+
+	fn get_by_name(&self, object_name: PathBuf) -> Option<DefaultKey>;
 }
