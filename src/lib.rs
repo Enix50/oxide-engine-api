@@ -4,10 +4,12 @@ pub use slotmap::DefaultKey;
 // === СОЗДАНИЕ СКРИПТА ===
 #[macro_export]
 macro_rules! create_script {
-    ($struct_name:ident) => {
-        #[no_mangle]
+    ($struct_name:ident { $($field:ident: $value:expr),* $(,)? }) => {
+        #[unsafe(no_mangle)]
         pub extern "Rust" fn create_script() -> Box<dyn Script> {
-            Box::new($struct_name::new())
+            Box::new($struct_name {
+            	$($field: $value),*
+        	})
         }
     };
 }
@@ -19,8 +21,6 @@ pub enum Event {
 
 // === ФУНКЦИИ СКРИПТА ===
 pub trait Script: Send {
-	/// Выполняется обязательным макросом
-	fn new() -> Self;
 	/// Выполняется один раз во время загрузки файла библиотеки
 	fn init(&mut self, ctx: &dyn Context) {
 		println!("Script Init");
