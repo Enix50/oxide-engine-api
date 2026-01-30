@@ -22,19 +22,19 @@ pub enum Event {
 // === ФУНКЦИИ СКРИПТА ===
 pub trait Script: Send {
 	/// Выполняется один раз во время загрузки файла библиотеки
-	fn init(&mut self, ctx: &dyn Context) {
+	fn init(&mut self, ctx: &impl Context) {
 		println!("Script Init");
 	}
 	/// Выполняется когда ---
-	fn ready(&mut self, ctx: &dyn Context) {
+	fn ready(&mut self, ctx: &impl Context) {
 		println!("Script Ready");
 	}
 	/// Выполняется каждый main loop
-	fn update(&mut self, ctx: &dyn Context, delta: f32) {
+	fn update(&mut self, ctx: &impl Context, delta: f32) {
 		println!("Script Update");
 	}
 	/// Вызывается при вводе
-	fn event(&mut self, ctx: &dyn Context, event: Event) {
+	fn event(&mut self, ctx: &impl Context, event: Event) {
 		println!("Script Event");
 	}
 }
@@ -42,7 +42,7 @@ pub trait Script: Send {
 // === МЕТОДЫ КОНТЕКСТА ===
 pub trait Context {
 	/// Доступ к подсистеме объектов
-	fn objects(&self) -> &dyn ObjectServer;
+	fn objects(&self) -> &impl ObjectServer;
 
 	/// Логирование (можно вынести в отдельную подсистему позже)
 	fn log(&self, msg: &str);
@@ -77,8 +77,10 @@ pub trait ObjectServer {
 	fn get_by_id(&self, object_id: DefaultKey) -> Option<DefaultKey>;
 
 	fn get_by_name(&self, object_name: PathBuf) -> Option<DefaultKey>;
+
+	fn test_create_root(&self, object_name: String, script_path: Option<PathBuf>) -> Option<&impl Object>;
 }
 
-pub trait Test {
-	fn test();
+pub trait Object {
+	fn add_child(&self, object_name: String, script_path: Option<PathBuf>) -> Option<&impl Object>;
 }
