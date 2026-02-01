@@ -1,4 +1,4 @@
-use crate::Context;
+use crate::context::Context;
 
 // === СОЗДАНИЕ СКРИПТА ===
 #[macro_export]
@@ -16,20 +16,20 @@ macro_rules! create_script {
 // === ФУНКЦИИ СКРИПТА ===
 pub trait Script: Send {
 	/// Выполняется при загрузке файла библиотеки
-	fn init(&mut self, ctx: &dyn Context) {
+	fn init(&mut self, ctx: &impl Context) {
 		ctx.log("Script Init");
 	}
 	/// Выполняется при добавлении в древо регистра
-	fn ready(&mut self, ctx: &dyn Context) {
+	fn ready(&mut self, ctx: &impl Context) {
 		ctx.log("Script Ready");
 	}
 	/// Выполняется каждый main loop
-	fn update(&mut self, ctx: &dyn Context, delta: f32) {
+	fn update(&mut self, ctx: &impl Context, delta: f32) {
 		ctx.log("Script Update");
 		println!("{}",delta);
 	}
 	/// Вызывается при вводе
-	fn event(&mut self, ctx: &dyn Context, event: crate::Event) {
+	fn event(&mut self, ctx: &impl Context, event: crate::Event) {
 		ctx.log("Script Event");
 	}
 }
